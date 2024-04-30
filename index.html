@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Speech-Driven 2D Facial Animation Based on a Two-Stage Generative Framework.">
+  <!-- <meta name="keywords" content="Nerfies, D-NeRF, NeRF"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Speech-Driven 2D Facial Animation Based on a Two-Stage Generative Framework</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">A Speech-Driven Talking Head based on a Two-Stage Generative
+Architecture</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="#">Brayan Bernardo de Souza</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="#">Paula Dornhofer Paro Costa</a><sup>2</sup>,</span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Dept. of Computer Engineering and Industrial Automation (DCA),</span>
+            <span class="author-block"><sup>2</sup>Universidade Estadual de Campinas (UNICAMP)</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <!-- <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/teaser.mp4"
+                type="video/mp4">
+      </video> -->
+      <h2 class="subtitle has-text-centered">
+        Our framework synthesizes talking head video from speech Portuguese audio.
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve">
+          <video poster="" controls playsinline height="100%">
+            <source src="./static/videos/ff_epoch_compare/Em3_1_Fala3_Neutra_CarolinaHolly_1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-chair-tp">
+          <video poster="" controls playsinline height="100%">
+            <source src="./static/videos/ff_epoch_compare/Em3_2_Fala2_Neutra_CarolinaHolly_1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-shiba">
+          <video poster="" controls playsinline height="100%">
+            <source src="./static/videos/ff_epoch_compare/Em3_3_Fala1_Neutra_CarolinaHolly_1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-fullbody">
+          <video poster="" controls playsinline height="100%">
+            <source src="./static/videos/ff_epoch_compare/Em3_6_Fala1_Neutra_CarolinaHolly_1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-blueshirt">
+          <video poster="" controls playsinline height="100%">
+            <source src="./static/videos/ff_epoch_compare/Em3_6_Fala2_Neutra_CarolinaHolly_1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-mask">
+          <video poster="" controls playsinline height="100%">
+            <source src="./static/videos/ff_epoch_compare/Em3_9_Fala2_Neutra_CarolinaHolly_1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-coffee">
+          <video poster="" controls playsinline height="100%">
+            <source src="./static/videos/ff_epoch_compare/Em3_10_Fala2_Neutra_CarolinaHolly_3.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-toby">
+          <video poster="" controls playsinline height="100%">
+            <source src="./static/videos/ff_epoch_compare/Em3_11_Fala1_Neutra_CarolinaHolly_1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-toby">
+          <video poster="" controls playsinline height="100%">
+            <source src="./static/videos/ff_epoch_compare/Em3_12_Fala3_Neutra_CarolinaHolly_1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-toby">
+          <video poster="" controls playsinline height="100%">
+            <source src="./static/videos/ff_epoch_compare/Em3_15_Fala2_Neutra_CarolinaHolly_2.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-toby">
+          <video poster=""  controls playsinline height="100%">
+            <source src="./static/videos/ff_epoch_compare/Em3_17_Fala1_Neutra_CarolinaHolly_1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-toby">
+          <video poster=""  controls playsinline height="100%">
+            <source src="./static/videos/ff_epoch_compare/Em3_18_Fala1_Neutra_CarolinaHolly_1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-toby">
+          <video poster=""  controls playsinline height="100%">
+            <source src="./static/videos/ff_epoch_compare/Em3_20_Fala1_Neutra_CarolinaHolly_2.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+
+        <div class="item item-steve exploration">
+          <video poster="" controls playsinline height="400px">
+            <source src="./static/videos/exploration/Em3_speed_1.webm"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-steve exploration">
+          <video poster="" controls playsinline height="400px">
+            <source src="./static/videos/exploration/Em3_woman_1.webm"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-steve exploration">
+          <video poster="" controls playsinline height="400px">
+            <source src="./static/videos/exploration/Em3_woman_2.webm"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-steve exploration">
+          <video poster="" controls playsinline height="400px">
+            <source src="./static/videos/exploration/Em3_english_1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-steve exploration">
+          <video poster="" controls playsinline height="400px">
+            <source src="./static/videos/exploration/Em3_english_2.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-steve exploration">
+          <video poster="" controls playsinline height="400px">
+            <source src="./static/videos/exploration/Em3_man.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Speech-driven facial animation, a technique employing speech signals as input, aims to generate realistic and expressive talking head animations. Despite advancements in talking head synthesis methods, challenges persist in terms of achieving precise control, robust generalization, and adaptability to various scenarios and speaker characteristics. Additionally, the majority of existing approaches are primarily tailored for a restricted range of languages, with English being the predominant focus.
+          </p>
+          <p>
+            This work introduces a novel two-stage architecture for Brazilian Portuguese talking head generation, combining the strengths of Transformers and Generative Adversarial Networks (GANs). In the first stage, the transformer-based model extracts rich contextual information from the audio speech input, generating facial landmarks. In the second stage, we employ a GAN-based framework to translate the facial representations into photorealistic video frames. 
+          </p>
+          <p>
+            This framework separates the modeling of dynamic shape variations from the realistic appearance, partially addressing the challenge of generalization.
+            Moreover, it becomes possible to assign multiple appearances to the same speaker by adjusting the trained weights of the second stage.
+            Objective metrics were used to evaluate the synthesized facial speech, showing that it closely matches the ground-truth landmarks.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <div class="columns is-centered">
+      <img src="./static/images/inference_1.png" alt="Framework Inference Overview" width="90%"/>
+
+    </div>
+
+    <div class="columns is-centered" style="margin-top: 20px;">
+      <div>
+        <span>
+          <b>Framework Overview: Inference</b>
+        </span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>
+      @inproceedings{bernardo-costa-2024-speech,
+        title = "A Speech-Driven Talking Head based on a Two-Stage Generative Framework",
+        author = "Bernardo, Brayan  and
+          Costa, Paula",
+        editor = "Gamallo, Pablo  and
+          Claro, Daniela  and
+          Teixeira, Ant{\'o}nio  and
+          Real, Livy  and
+          Garcia, Marcos  and
+          Oliveira, Hugo Gon{\c{c}}alo  and
+          Amaro, Raquel",
+        booktitle = "Proceedings of the 16th International Conference on Computational Processing of Portuguese",
+        month = mar,
+        year = "2024",
+        address = "Santiago de Compostela, Galicia/Spain",
+        publisher = "Association for Computational Lingustics",
+        url = "https://aclanthology.org/2024.propor-1.64",
+        pages = "580--586",
+    }
+      <!-- @article{park2021nerfies,
+  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
+  title     = {Nerfies: Deformable Neural Radiance Fields},
+  journal   = {ICCV},
+  year      = {2021},
+} -->
+
+  
+</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="#">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="#" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+            href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+          Commons Attribution-ShareAlike 4.0 International License</a>.
+        </p>
+        <p>
+          Website source code based on the <a href="https://nerfies.github.io/"> Nerfies</a> project page. If you want to reuse their <a
+          href="https://github.com/nerfies/nerfies.github.io">source code</a>, please credit them appropriately.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>
+
+<!-- bernardo@ian:~/Documents/propor/bpsdth$ mediainfo static/videos/exploration/Em3_man.mp4 
+General
+Complete name                            : static/videos/exploration/Em3_man.mp4
+Codec ID                                 : isom (isom/iso2/avc1/mp41)
+File size                                : 1.18 MiB
+Duration                                 : 8 s 453 ms
+Overall bit rate                         : 1 176 kb/s
+Writing application                      : Lavf60.20.100
+
+Complete name                            : static/videos/exploration/Em3_woman1.mp4
+Format                                   : MPEG-4
+Format profile                           : Base Media
+Codec ID                                 : isom (isom/iso2/mp41)
+File size                                : 378 KiB
+Duration                                 : 13 s 9 ms
+Overall bit rate                         : 238 kb/s
+Writing application                      : Lavf60.3.100
+
+Video
+ID                                       : 1
+Format                                   : AVC
+Format/Info                              : Advanced Video Codec
+Format profile                           : Baseline@L3
+Format settings                          : 3 Ref Frames
+Format settings, CABAC                   : No
+Format settings, Reference frames        : 3 frames
+Codec ID                                 : avc1
+Codec ID/Info                            : Advanced Video Coding
+Duration                                 : 8 s 400 ms
+Bit rate                                 : 1 000 kb/s
+Width                                    : 1 024 pixels
+Height                                   : 576 pixels
+Display aspect ratio                     : 0.999
+Original display aspect ratio            : 1.000
+Frame rate mode                          : Constant
+Frame rate                               : 30.000 FPS
+Color space                              : YUV
+Chroma subsampling                       : 4:2:0
+Bit depth                                : 8 bits
+Scan type                                : Progressive
+Bits/(Pixel*Frame)                       : 0.057
+Stream size                              : 1 003 KiB (83%)
+Writing library                          : x264 core 164
+Encoding settings                        : cabac=0 / ref=3 / deblock=1:0:0 / analyse=0x1:0x111 / me=hex / subme=7 / psy=1 / psy_rd=1.00:0.00 / mixed_ref=1 / me_range=16 / chroma_me=1 / trellis=1 / 8x8dct=0 / cqm=0 / deadzone=21,11 / fast_pskip=1 / chroma_qp_offset=-2 / threads=18 / lookahead_threads=3 / sliced_threads=0 / nr=0 / decimate=1 / interlaced=0 / bluray_compat=0 / constrained_intra=0 / bframes=0 / weightp=0 / keyint=250 / keyint_min=25 / scenecut=40 / intra_refresh=0 / rc_lookahead=40 / rc=2pass / mbtree=1 / bitrate=1000 / ratetol=1.0 / qcomp=0.60 / qpmin=0 / qpmax=69 / qpstep=4 / cplxblur=20.0 / qblur=0.5 / ip_ratio=1.40 / aq=1:1.00
+Codec configuration box                  : avcC
+
+Audio
+ID                                       : 2
+Format                                   : AAC LC
+Format/Info                              : Advanced Audio Codec Low Complexity
+Codec ID                                 : mp4a-40-2
+Duration                                 : 8 s 453 ms
+Source duration                          : 8 s 475 ms
+Bit rate mode                            : Constant
+Bit rate                                 : 192 kb/s
+Channel(s)                               : 2 channels
+Channel layout                           : L R
+Sampling rate                            : 44.1 kHz
+Frame rate                               : 43.066 FPS (1024 SPF)
+Compression mode                         : Lossy
+Stream size                              : 201 KiB (17%)
+Source stream size                       : 202 KiB (17%)
+Title                                    : ISO Media file produced by Google Inc.
+Language                                 : English
+Default                                  : Yes
+Alternate group                          : 1
+
+
+bernardo@ian:~/Documents/propor/bpsdth$ mediainfo static/videos/exploration/Em3_woman 
+Em3_woman1.mp4  Em3_woman2.mp4  
+bernardo@ian:~/Documents/propor/bpsdth$ mediainfo static/videos/exploration/Em3_woman1.mp4 
+General
+Complete name                            : static/videos/exploration/Em3_woman1.mp4
+Format                                   : MPEG-4
+Format profile                           : Base Media
+Codec ID                                 : isom (isom/iso2/mp41)
+File size                                : 378 KiB
+Duration                                 : 13 s 9 ms
+Overall bit rate                         : 238 kb/s
+Writing application                      : Lavf60.3.100
+
+Video
+ID                                       : 1
+Format                                   : HEVC
+Format/Info                              : High Efficiency Video Coding
+Format profile                           : Main@L2@Main
+Codec ID                                 : hev1
+Codec ID/Info                            : High Efficiency Video Coding
+Duration                                 : 12 s 934 ms
+Bit rate                                 : 36.5 kb/s
+Width                                    : 256 pixels
+Height                                   : 256 pixels
+Display aspect ratio                     : 1.000
+Frame rate mode                          : Constant
+Frame rate                               : 30.000 FPS
+Color space                              : YUV
+Chroma subsampling                       : 4:2:0 (Type 1)
+Bit depth                                : 8 bits
+Scan type                                : Progressive
+Bits/(Pixel*Frame)                       : 0.019
+Stream size                              : 57.7 KiB (15%)
+Writing library                          : x265 3.5+1-f0c1022b6:[Linux][GCC 11.2.0][64 bit] 8bit+10bit+12bit
+Encoding settings                        : cpuid=1111039 / frame-threads=4 / wpp / no-pmode / no-pme / no-psnr / no-ssim / log-level=2 / input-csp=1 / input-res=256x256 / interlace=0 / total-frames=0 / level-idc=0 / high-tier=1 / uhd-bd=0 / ref=3 / no-allow-non-conformance / no-repeat-headers / annexb / no-aud / no-hrd / info / hash=0 / no-temporal-layers / open-gop / min-keyint=25 / keyint=250 / gop-lookahead=0 / bframes=4 / b-adapt=2 / b-pyramid / bframe-bias=0 / rc-lookahead=20 / lookahead-slices=0 / scenecut=40 / hist-scenecut=0 / radl=0 / no-splice / no-intra-refresh / ctu=64 / min-cu-size=8 / no-rect / no-amp / max-tu-size=32 / tu-inter-depth=1 / tu-intra-depth=1 / limit-tu=0 / rdoq-level=0 / dynamic-rd=0.00 / no-ssim-rd / signhide / no-tskip / nr-intra=0 / nr-inter=0 / no-constrained-intra / strong-intra-smoothing / max-merge=3 / limit-refs=1 / no-limit-modes / me=1 / subme=2 / merange=57 / temporal-mvp / no-frame-dup / no-hme / weightp / no-weightb / no-analyze-src-pics / deblock=0:0 / sao / no-sao-non-deblock / rd=3 / selective-sao=4 / early-skip / rskip / no-fast-intra / no-tskip-fast / no-cu-lossless / b-intra / no-splitrd-skip / rdpenalty=0 / psy-rd=2.00 / psy-rdoq=0.00 / no-rd-refine / no-lossless / cbqpoffs=0 / crqpoffs=0 / rc=crf / crf=28.0 / qcomp=0.60 / qpstep=4 / stats-write=0 / stats-read=0 / ipratio=1.40 / pbratio=1.30 / aq-mode=2 / aq-strength=1.00 / cutree / zone-count=0 / no-strict-cbr / qg-size=32 / no-rc-grain / qpmax=69 / qpmin=0 / no-const-vbv / sar=1 / overscan=0 / videoformat=5 / range=1 / colorprim=2 / transfer=2 / colormatrix=5 / chromaloc=1 / chromaloc-top=1 / chromaloc-bottom=1 / display-window=0 / cll=0,0 / min-luma=0 / max-luma=255 / log2-max-poc-lsb=8 / vui-timing-info / vui-hrd-info / slices=1 / no-opt-qp-pps / no-opt-ref-list-length-pps / no-multi-pass-opt-rps / scenecut-bias=0.05 / hist-threshold=0.03 / no-opt-cu-delta-qp / no-aq-motion / no-hdr10 / no-hdr10-opt / no-dhdr10-opt / no-idr-recovery-sei / analysis-reuse-level=0 / analysis-save-reuse-level=0 / analysis-load-reuse-level=0 / scale-factor=0 / refine-intra=0 / refine-inter=0 / refine-mv=1 / refine-ctu-distortion=0 / no-limit-sao / ctu-info=0 / no-lowpass-dct / refine-analysis-type=0 / copy-pic=1 / max-ausize-factor=1.0 / no-dynamic-refine / no-single-sei / no-hevc-aq / no-svt / no-field / qp-adaptation-range=1.00 / scenecut-aware-qp=0conformance-window-offsets / right=0 / bottom=0 / decoder-max-rate=0 / no-vbv-live-multi-pass
+Color range                              : Full
+Matrix coefficients                      : BT.470 System B/G
+Codec configuration box                  : hvcC
+
+Audio
+ID                                       : 2
+Format                                   : MPEG Audio
+Format version                           : Version 1
+Format profile                           : Layer 3
+Format settings                          : Joint stereo / MS Stereo
+Codec ID                                 : mp4a-6B
+Duration                                 : 13 s 9 ms
+Source duration                          : 13 s 32 ms
+Bit rate mode                            : Constant
+Bit rate                                 : 192 kb/s
+Channel(s)                               : 2 channels
+Sampling rate                            : 48.0 kHz
+Compression mode                         : Lossy
+Stream size                              : 305 KiB (81%)
+Source stream size                       : 305 KiB (81%)
+Writing library                          : LAME3.100
+Default                                  : Yes
+Alternate group                          : 1 -->
+
+
